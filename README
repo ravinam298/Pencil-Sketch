@@ -1,0 +1,16 @@
+# Python-Image-to-Pencil-Sketch
+import cv2 
+image = cv2.imread("jerry.jpg")        # here I can place any image of my choice in jpg, png or jpeg format.
+# read the image
+grey_filter = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+# convert the coloured image into grayscale
+cv2.imwrite("grey.png",grey_filter)
+# save the gray scale image
+invert = cv2.bitwise_not(grey_filter)
+# apply the gaussian blur to get blur image
+blur = cv2.GaussianBlur(invert, (21, 21), 0)
+# convert blur image to inverted 
+invertedblur = cv2.bitwise_not(blur)
+# convert it into Sketch image... The  sketch can be obtained by performing bit-wise division between the Grayscale image and the inverted-blurred image.
+sketch_filter = cv2.divide(grey_filter, invertedblur,scale = 256.0)
+cv2.imwrite("Output.jpg", sketch_filter)
